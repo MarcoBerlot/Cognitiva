@@ -18,65 +18,13 @@ app.use(compression());
 app.use('/',express.static('.', { maxAge: 86400000 }));
 app.use(morgan('common'))
 
-app.get('/measure', function (req, res) {
-  res.sendFile( __dirname + "/views/measure.html" );
+app.get('/getPost', function (req, res) {
+  //Romoli
 })
-app.get('/measure/accuracy', function (req, res) {
-  res.sendFile( __dirname + "/views/measure_detail.html" );
-})
-app.get('/measure/completness', function (req, res) {
-  res.sendFile( __dirname + "/views/measure_detail.html" );
-})
-app.get('/measure/consistency', function (req, res) {
-  res.sendFile( __dirname + "/views/measure_detail.html" );
-})
-app.get('/measure/credibility', function (req, res) {
-  res.sendFile( __dirname + "/views/measure_detail.html" );
-})
-app.get('/measure/compliance', function (req, res) {
-  res.sendFile( __dirname + "/views/measure_detail.html" );
+app.get('/update', function (req, res) {
+  //Marco
 })
 
-app.get('/result', function (req, res) {
-  res.sendFile( __dirname + "/views/datavisualization.html"  );
-})
-app.get('/result/accuracy', function (req, res) {
-  res.sendFile( __dirname + "/views/datavisualization_detail.html" );
-})
-app.get('/result/completness', function (req, res) {
-  res.sendFile( __dirname + "/views/datavisualization_detail.html"  );
-})
-app.get('/result/consistency', function (req, res) {
-  res.sendFile( __dirname + "/views/datavisualization_detail.html" );
-})
-app.get('/result/credibility', function (req, res) {
-  res.sendFile( __dirname + "/views/datavisualization_detail.html"  );
-})
-app.get('/result/compliance', function (req, res) {
-  res.sendFile( __dirname + "/views/datavisualization_detail.html"  );
-})
-
-app.get('/upload', function (req, res) {
-  res.sendFile( __dirname + "/views/upload.html"  );
-})
-
-app.get('/wizard', function (req, res) {
-  res.sendFile( __dirname + "/views/wizard.html"  );
-})
-app.get('/error', apicache('1 day'), function (req, res) {
-  res.sendFile( __dirname + "/views/error.html" );
-})
-app.get('/tmq/:path*', function (req, res) {
-  request('http://localhost:8085/'+ req.params.path + req.params[0], function (error, response, body) {
-    if(error)
-    {
-      console.log("Invalid JSON file");
-      res.send("JSON.parse(body)")
-    }
-    else
-    {res.send(JSON.parse(body))};
-  });
-})
 
 var server = app.listen(8080, function () {
 
