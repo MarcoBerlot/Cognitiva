@@ -40,7 +40,7 @@ def savePost():
     mongo.db.userScores.insert_one(json.loads(json_data))
     return jsonify({'result' : output})
 
-@app.route('/result', methods=['GET'])
+@app.route('/measure', methods=['GET'])
 #REPLACE INPUTTEXT WITH A SIMPLE TEXT
 
 def IdeaDensity():
