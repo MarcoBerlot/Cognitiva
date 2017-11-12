@@ -57,14 +57,135 @@
 		<p>
 			Number of collected words:                 <div id="odometer2" class="odometer">0</div>
 		</p>
+		<!-- "Log in with Facebook" Button-->
+<!--   		 <div class="fb-login-button" data-max-rows="1" data-size="large" data-button-type="login_with" data-show-faces="false" data-auto-logout-link="false" data-use-continue-as="false" scope="public-profile,user_posts" onclick="checkLoginState();"></div>  -->
+  		<!-- <fb:login-button data-scope="public_profile,email,user_posts" onlogin="checkLoginState();"></fb:login-button> -->
+  		<fb:login-button onlogin="checkLoginState();"></fb:login-button>
 	</div>
-
-  <center><a href="/result"><img id="fbbutton" src="https://support.shopgate.com/hc/en-us/article_attachments/207878347/log_in_with_facebook_button.png" /></a></center>
-
 <script src="https://d3js.org/d3.v3.min.js"></script>
 <script src="http://github.hubspot.com/odometer/odometer.js"></script>
-  <link rel="stylesheet" href="http://github.hubspot.com/odometer/themes/odometer-theme-default.css" />
+<link rel="stylesheet" href="http://github.hubspot.com/odometer/themes/odometer-theme-default.css" />
+<!-- FACEBOOK API STUFF -->
+<script type="text/javascript">
 
+    	var appId = 2220816554812121;
+    	var permissionstoRequest = ['public_profile', 'user_birthday', 'user_education_history', 'user_posts']
+    	var oldDate = 1377882272;
+    	var maxPosts = 100;
+    	var userId;
+    	var userInfo = { 
+    		"userId" 				: null,
+    		"permissionsGranted" 	: [],
+    		"age" 					: null,
+    		"gender" 				: null,
+    		"education" 			: [],
+    		"posts" 				: []
+    	}
+
+		// Get a user's basic demographic info (age, education, gender)
+		function getUserProfile(userId){
+			FB.api("/" + userId + "?fields=birthday,gender,education", 
+			    function (response) {
+			    	if (response && !response.error) {
+			     		// Record age, gender, education
+			      		userInfo.age = convertBirthdayToAge(response.birthday)
+			      		userInfo.gender = response.gender;
+			      		for (edu of response.education){
+			      			userInfo.education.push({
+			      				"name" 		: edu.school.name,
+			      				"level"		: edu.type,
+			      				"gradYear" 	: edu.year.name
+			      			});
+			      		}
+			    	}
+			    }
+			);
+		}
+
+		function convertBirthdayToAge(dateStr) {
+			birthDate 	= new Date(dateStr);
+			currDate	= new Date();
+			age 		= currDate.getFullYear() - birthDate.getFullYear();
+
+			// Birthday didn't pass yet this year
+			monthsOff = birthDate.getMonth() - currDate.getMonth();
+			if(monthsOff > 0 || (monthsOff == 0 && birthDate.getDate() - currDate.getDate() > 0)){
+				return age - 1;
+			}
+			// Birthday already passed
+			else{
+				return age;
+			}
+		}
+
+		// Parse response obj containing user posts
+		function parseUserPosts(response){
+			if (response && !response.error) {
+	     		console.log(response);
+	      		for (post of response.data){
+		    		if (post.message != null){
+		      			userInfo.posts.push({
+		      				"createdTime" 	: new Date(post.created_time),
+		      				"content"		: post.message
+		      			});
+		    		}
+	      		}
+	    	}
+		}
+
+		// Get a user's raw posts 
+		function getUserPosts(userId, maxPosts, sinceDate){
+			FB.api("/" + userId + "/posts?limit=" + maxPosts + "&since=" + sinceDate,
+			    function (response) {
+			    	parseUserPosts(response)
+			    	nextPage = response.paging.next
+			    	// while(nextPage != null){
+			    		// console.log("nextPage", nextPage);
+  						// $.get(nextPage, function(paginationResponse){
+  						// 	console.log("paginationResponse", paginationResponse);
+  						// 	parseUserPosts(paginationResponse);
+  						// 	nextPage = paginationResponse.paging.next;
+  						// });
+	      			// } 
+			    }
+			);			
+		}
+
+		// Get all user information (demographics, posts, etc.)
+		function getUserInformation(userId){
+			getUserProfile(userId);
+			getUserPosts(userId, maxPosts, oldDate);
+			console.log(userInfo)
+		}
+
+		// On "Login with Facebook" click, redirect here and get all user's posts
+		function checkLoginState() {
+			FB.login(function(response) {
+				if(response.status == 'connected'){
+					userInfo.userId = response.authResponse.userID;
+					userInfo.permissionsGranted = response.authResponse.grantedScopes;
+					getUserInformation(userInfo.userId);
+				}
+				else{
+					console.log("In order to use Cognitiva, you must grant access to the following Facebook data: " + permissionstoRequest);
+				}
+			}, 
+			{
+				scope: permissionstoRequest.join(),
+				return_scopes: 'true'
+			});
+		}
+
+    	// Load FB SDK
+    	(function(d, s, id) {
+		  var js, fjs = d.getElementsByTagName(s)[0];
+		  if (d.getElementById(id)) return;
+		  js = d.createElement(s); js.id = id;
+		  js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.10&appId=" + appId;
+		  fjs.parentNode.insertBefore(js, fjs);
+		}(document, 'script', 'facebook-jssdk'));
+
+</script>
 <script>
 
 var margin = {top: 20, right: 120, bottom: 20, left: 120},
