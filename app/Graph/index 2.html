@@ -67,13 +67,12 @@
 <link rel="stylesheet" href="http://github.hubspot.com/odometer/themes/odometer-theme-default.css" />
 <!-- FACEBOOK API STUFF -->
 <script type="text/javascript">
-
     	var appId = 2220816554812121;
     	var permissionstoRequest = ['public_profile', 'user_birthday', 'user_education_history', 'user_posts']
     	var oldDate = 1377882272;
     	var maxPosts = 100;
     	var userId;
-    	var userInfo = { 
+    	var userInfo = {
     		"userId" 				: null,
     		"permissionsGranted" 	: [],
     		"age" 					: null,
@@ -81,10 +80,9 @@
     		"education" 			: [],
     		"posts" 				: []
     	}
-
 		// Get a user's basic demographic info (age, education, gender)
 		function getUserProfile(userId){
-			FB.api("/" + userId + "?fields=birthday,gender,education", 
+			FB.api("/" + userId + "?fields=birthday,gender,education",
 			    function (response) {
 			    	if (response && !response.error) {
 			     		// Record age, gender, education
@@ -101,12 +99,10 @@
 			    }
 			);
 		}
-
 		function convertBirthdayToAge(dateStr) {
 			birthDate 	= new Date(dateStr);
 			currDate	= new Date();
 			age 		= currDate.getFullYear() - birthDate.getFullYear();
-
 			// Birthday didn't pass yet this year
 			monthsOff = birthDate.getMonth() - currDate.getMonth();
 			if(monthsOff > 0 || (monthsOff == 0 && birthDate.getDate() - currDate.getDate() > 0)){
@@ -117,7 +113,6 @@
 				return age;
 			}
 		}
-
 		// Parse response obj containing user posts
 		function parseUserPosts(response){
 			if (response && !response.error) {
@@ -132,8 +127,7 @@
 	      		}
 	    	}
 		}
-
-		// Get a user's raw posts 
+		// Get a user's raw posts
 		function getUserPosts(userId, maxPosts, sinceDate){
 			FB.api("/" + userId + "/posts?limit=" + maxPosts + "&since=" + sinceDate,
 			    function (response) {
@@ -146,18 +140,16 @@
   						// 	parseUserPosts(paginationResponse);
   						// 	nextPage = paginationResponse.paging.next;
   						// });
-	      			// } 
+	      			// }
 			    }
-			);			
+			);
 		}
-
 		// Get all user information (demographics, posts, etc.)
 		function getUserInformation(userId){
 			getUserProfile(userId);
 			getUserPosts(userId, maxPosts, oldDate);
 			console.log(userInfo)
 		}
-
 		// On "Login with Facebook" click, redirect here and get all user's posts
 		function checkLoginState() {
 			FB.login(function(response) {
@@ -165,17 +157,26 @@
 					userInfo.userId = response.authResponse.userID;
 					userInfo.permissionsGranted = response.authResponse.grantedScopes;
 					getUserInformation(userInfo.userId);
+          //POST userInfo
+          $.ajax({
+          type: "POST",
+          url: "localhost:5000/measure",
+          data: userInfo,
+          success: function(){
+            console.log("working" );
+        },
+          dataType: "application/json"
+        });
 				}
 				else{
 					console.log("In order to use Cognitiva, you must grant access to the following Facebook data: " + permissionstoRequest);
 				}
-			}, 
+			},
 			{
 				scope: permissionstoRequest.join(),
 				return_scopes: 'true'
 			});
 		}
-
     	// Load FB SDK
     	(function(d, s, id) {
 		  var js, fjs = d.getElementsByTagName(s)[0];
@@ -184,37 +185,28 @@
 		  js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.10&appId=" + appId;
 		  fjs.parentNode.insertBefore(js, fjs);
 		}(document, 'script', 'facebook-jssdk'));
-
 </script>
 <script>
-
 var margin = {top: 20, right: 120, bottom: 20, left: 120},
     width = 960 - margin.right - margin.left,
     height = 800 - margin.top - margin.bottom;
-
 var i = 0,
     duration = 750,
     root;
-
 var tree = d3.layout.tree()
     .size([height, width]);
-
 var diagonal = d3.svg.diagonal()
     .projection(function(d) { return [d.y, d.x]; });
-
 var svg = d3.select("body").append("svg")
     .attr("width", width + margin.right + margin.left)
     .attr("height", height + margin.top + margin.bottom)
   .append("g")
     .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
-
 d3.json("flare.json", function(error, flare) {
   if (error) throw error;
-
   root = flare;
   root.x0 = height / 2;
   root.y0 = 0;
-
   function collapse(d) {
     if (d.children) {
       d._children = d.children;
@@ -222,71 +214,54 @@ d3.json("flare.json", function(error, flare) {
       d.children = null;
     }
   }
-
   root.children.forEach(collapse);
   update(root);
 });
-
 d3.select(self.frameElement).style("height", "800px");
-
 function update(source) {
-
   // Compute the new tree layout.
   var nodes = tree.nodes(root).reverse(),
       links = tree.links(nodes);
-
   // Normalize for fixed-depth.
   nodes.forEach(function(d) { d.y = d.depth * 180; });
-
   // Update the nodes…
   var node = svg.selectAll("g.node")
       .data(nodes, function(d) { return d.id || (d.id = ++i); });
-
   // Enter any new nodes at the parent's previous position.
   var nodeEnter = node.enter().append("g")
       .attr("class", "node")
       .attr("transform", function(d) { return "translate(" + source.y0 + "," + source.x0 + ")"; })
       .on("click", click);
-
   nodeEnter.append("circle")
       .attr("r", 1e-6)
       .style("fill", function(d) { return d._children ? "lightsteelblue" : "#fff"; });
-
   nodeEnter.append("text")
       .attr("x", function(d) { return d.children || d._children ? -10 : 10; })
       .attr("dy", ".35em")
       .attr("text-anchor", function(d) { return d.children || d._children ? "end" : "start"; })
       .text(function(d) { return d.name; })
       .style("fill-opacity", 1e-6);
-
   // Transition nodes to their new position.
   var nodeUpdate = node.transition()
       .duration(duration)
       .attr("transform", function(d) { return "translate(" + d.y + "," + d.x + ")"; });
-
   nodeUpdate.select("circle")
       .attr("r", 4.5)
       .style("fill", function(d) { return d._children ? "lightsteelblue" : "#fff"; });
-
   nodeUpdate.select("text")
       .style("fill-opacity", 1);
-
   // Transition exiting nodes to the parent's new position.
   var nodeExit = node.exit().transition()
       .duration(duration)
       .attr("transform", function(d) { return "translate(" + source.y + "," + source.x + ")"; })
       .remove();
-
   nodeExit.select("circle")
       .attr("r", 1e-6);
-
   nodeExit.select("text")
       .style("fill-opacity", 1e-6);
-
   // Update the links…
   var link = svg.selectAll("path.link")
       .data(links, function(d) { return d.target.id; });
-
   // Enter any new links at the parent's previous position.
   link.enter().insert("path", "g")
       .attr("class", "link")
@@ -294,12 +269,10 @@ function update(source) {
         var o = {x: source.x0, y: source.y0};
         return diagonal({source: o, target: o});
       });
-
   // Transition links to their new position.
   link.transition()
       .duration(duration)
       .attr("d", diagonal);
-
   // Transition exiting nodes to the parent's new position.
   link.exit().transition()
       .duration(duration)
@@ -308,14 +281,12 @@ function update(source) {
         return diagonal({source: o, target: o});
       })
       .remove();
-
   // Stash the old positions for transition.
   nodes.forEach(function(d) {
     d.x0 = d.x;
     d.y0 = d.y;
   });
 }
-
 // Toggle children on click.
 function click(d) {
   if (d.children) {
@@ -327,11 +298,10 @@ function click(d) {
   }
   update(d);
 }
-
 </script>
 
 
-	
+
 	<section class="box">
 		<div class="container">
 			<div class="row">
@@ -451,7 +421,6 @@ function click(d) {
 	<script>
 	wow = new WOW(
 	 {
-
 		}	)
 		.init();
 		setTimeout(function(){
@@ -466,24 +435,19 @@ font-size: 25px;
 }
 .top-margin{
 margin-top: 120px;
-
 }
 <style>
-
 .node {
   cursor: pointer;
 }
-
 .node circle {
   fill: #fff;
   stroke: steelblue;
   stroke-width: 1.5px;
 }
-
 .node text {
   font: 10px sans-serif;
 }
-
 .link {
   fill: none;
   stroke: #ccc;
