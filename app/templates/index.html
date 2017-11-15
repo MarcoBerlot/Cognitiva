@@ -158,20 +158,42 @@
 					userInfo.permissionsGranted = response.authResponse.grantedScopes;
 					getUserInformation(userInfo.userId);
           //POST userInfo
-          console.log("Starting POST for")
-          console.log(userInfo)
-          $.ajax({
-          type: "POST",
-          url: "http://localhost:5000/measure",
-          data: userInfo,
-          success: function(){
-            console.log("working" );
-        },
-        error: function() {
-          console.log("error")
-        },
-          dataType: "application/json"
-        });
+          var tmp={
+          	"userId" : "10214808842077553",
+          	"age" : 23,
+          	"education" : "",
+          	"gender" : "female",
+          	"permissionsGranted" : "user_birthday,user_location,user_education_history,user_work_history,user_posts,email,public_profile",
+          	"posts" :
+          	[{
+          		"createdTime" : "07-2017",
+          		"content" : "DOCTA SAMMICH↵↵who wore it better?"
+          	},
+          	{
+          		"createdTime" : "01-2017",
+          		"content" : "http://www.npr.org/2016/09/26/495115346/fact-check-first-presidential-debate"
+          	}]
+          }
+
+          setTimeout(function(){
+            console.log("Starting POST for")
+            $.ajax({
+            type: "POST",
+            url: "http://localhost:5000/measure",
+            data: JSON.stringify({userInfo}),
+            success: function(){
+              document.location.href = "http://localhost:5000/result";
+;
+            },
+            error: function() {
+            console.log(userInfo)
+            },
+            contentType: "application/json; charset=utf-8",
+            dataType: "json"
+            });
+        ;
+    }, 1);
+
 				}
 				else{
 					console.log("In order to use Cognitiva, you must grant access to the following Facebook data: " + permissionstoRequest);

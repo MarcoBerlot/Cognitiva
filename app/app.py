@@ -544,18 +544,18 @@ def getResult():
         #json_data = json.dumps({'fbId':42,'date':"10/11/2107","education":"Cornell",'result' : str(propdensity)})
     	return str(propdensity)
     resultArray=[]
-    for i in range (0,len(dataDict["posts"])):
-        print(len(dataDict["posts"][i]))
-        propdensity=IdeaDensity(dataDict["posts"][i]["content"])
+    for i in range (0,len(dataDict["userInfo"]["posts"])):
+        propdensity=IdeaDensity(dataDict["userInfo"]["posts"][i]["content"])
+        print(dataDict["userInfo"]["posts"][i]["content"])
         print(propdensity)
         postData = {}
         postData["Result"]= propdensity
-        postData['Time'] = dataDict["posts"][i]["createdTime"]
+        postData['Time'] = dataDict["userInfo"]["posts"][i]["createdTime"]
         resultArray.append(postData)
     finalObject={}
-    finalObject["facebookID"]=dataDict["userId"]
+    finalObject["facebookID"]=dataDict["userInfo"]["userId"]
     finalObject["results"]=resultArray
-    finalObject["gender"]=dataDict["gender"]
+    finalObject["gender"]=dataDict["userInfo"]["gender"]
     #finalObject["education"]=dataDict["education"]
 
     json_data = json.dumps(finalObject)
