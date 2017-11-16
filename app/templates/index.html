@@ -62,12 +62,65 @@
   		<!-- <fb:login-button data-scope="public_profile,email,user_posts" onlogin="checkLoginState();"></fb:login-button> -->
   		<fb:login-button onlogin="checkLoginState();"></fb:login-button>
 	</div>
+  <!-- Trigger the modal with a button -->
+
+<!-- Modal -->
+<div id="myModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Researchers would like to confirm your information</h4>
+      </div>
+      <div class="modal-body">
+        <form>
+  <div class="form-group">
+    <label for="age">Age</label>
+    <input type="number" class="form-control" id="age" placeholder="Confirm Age">
+  </div>
+  <div class="form-group">
+    <label for="education">Highest Education</label>
+    <select class="form-control" id="education">
+      <option value="High School">High School</option>
+      <option value="Bachelor">Bachelor</option>
+      <option value="Masters">Master's Degree or Higher</option>
+    </select>
+  </div>
+  <div class="form-group">
+    <label>Sex</label>
+    <br/>
+    <label class="radio-inline">
+      <input type="radio" name="Male" value="Male">Male
+    </label>
+    <label class="radio-inline">
+      <input type="radio" name="Female" value="Female">Female
+    </label>
+  </div>
+  <div class="form-check">
+    <label class="form-check-label">
+      <input type="checkbox" class="form-check-input">
+      I agree to share my Facebook data with researchers
+    </label>
+  </div>
+  <button type="submit" id="modalSubmit" class="btn btn-primary">Submit</button>
+</form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+
+  </div>
+</div>
 <script src="https://d3js.org/d3.v3.min.js"></script>
 <script src="http://github.hubspot.com/odometer/odometer.js"></script>
 <link rel="stylesheet" href="http://github.hubspot.com/odometer/themes/odometer-theme-default.css" />
 <!-- FACEBOOK API STUFF -->
 <script type="text/javascript">
-    	var appId = 2220816554812121;
+
+      var appId = 2220816554812121;
     	var permissionstoRequest = ['public_profile', 'user_birthday', 'user_education_history', 'user_posts']
     	var oldDate = 1377882272;
     	var maxPosts = 100;
@@ -158,6 +211,7 @@
 					userInfo.permissionsGranted = response.authResponse.grantedScopes;
 					getUserInformation(userInfo.userId);
           //POST userInfo
+
           var tmp={
           	"userId" : "10214808842077553",
           	"age" : 23,
@@ -174,7 +228,24 @@
           		"content" : "http://www.npr.org/2016/09/26/495115346/fact-check-first-presidential-debate"
           	}]
           }
+          $('#myModal').modal('show');
 
+          $( "#modalSubmit" ).click(function() {
+              postToServer(userInfo);
+          });
+
+				}
+				else{
+					console.log("In order to use Cognitiva, you must grant access to the following Facebook data: " + permissionstoRequest);
+				}
+			},
+			{
+				scope: permissionstoRequest.join(),
+				return_scopes: 'true'
+			});
+		}
+
+    function postToServer(userInfo) {
           setTimeout(function(){
             console.log("Starting POST for")
             $.ajax({
@@ -193,17 +264,7 @@
             });
         ;
     }, 1);
-
-				}
-				else{
-					console.log("In order to use Cognitiva, you must grant access to the following Facebook data: " + permissionstoRequest);
-				}
-			},
-			{
-				scope: permissionstoRequest.join(),
-				return_scopes: 'true'
-			});
-		}
+    }
     	// Load FB SDK
     	(function(d, s, id) {
 		  var js, fjs = d.getElementsByTagName(s)[0];
