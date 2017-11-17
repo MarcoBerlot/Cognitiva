@@ -155,17 +155,26 @@
         </div>
    </div>
         </div>
-
-
               <div class="tornasu">
                 <a href="#idea"><i class="fa fa-arrow-up" aria-hidden="true"></i></a>
               </div>
+<!-- SHARING GRAPH STUFF -->
+<div id="fb-root"></div>
+<script>
 
-              <script>
-              
+// Load FB SDK
+(function(d, s, id) {
+    var js, fjs = d.getElementsByTagName(s)[0];
+    if (d.getElementById(id)) return;
+    js = d.createElement(s); js.id = id;
+    js.src = 'https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.11&appId=2220816554812121';
+    fjs.parentNode.insertBefore(js, fjs);
+  }(document, 'script', 'facebook-jssdk'));
+
+// Sharing Graph
 var margin = {top: 20, right: 120, bottom: 20, left: 120},
-    width = 960 - margin.right - margin.left,
-    height = 800 - margin.top - margin.bottom;
+    width = 600 - margin.right - margin.left,
+    height = 400 - margin.top - margin.bottom;
 var i = 0,
     duration = 750,
     root;
@@ -173,11 +182,90 @@ var tree = d3.layout.tree()
     .size([height, width]);
 var diagonal = d3.svg.diagonal()
     .projection(function(d) { return [d.y, d.x]; });
-var chart2 = d3.select("body").append("svg")
-    .attr("width", width + margin.right + margin.left)
+var chart2 = d3.select("body")
+  .append('div')
+  .attr('id', 'svg_container')
+  .append("svg")
+  .attr("id", "sharingGraph")
+    // .attr("width", width + margin.right + margin.left)
+    .attr("width", "100%")
     .attr("height", height + margin.top + margin.bottom)
   .append("g")
     .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+// Pics          
+var config = {
+    "avatar_size"  : 60,
+    "pattern_size" : 30
+}
+var defs = chart2.append('svg:defs');
+
+// Add Maxime
+defs.append("svg:pattern")
+    .attr("id", "Maxime")
+    .attr("width", config.avatar_size)
+    .attr("height", config.avatar_size)
+    .attr("x", config.pattern_size)
+    .attr("y", config.pattern_size)
+    .attr("patternUnits", "userSpaceOnUse")
+    .append("svg:image")
+    .attr("xlink:href", '../static/img/MaximeProfPic.png')
+    .attr("width", config.avatar_size)
+    .attr("height", config.avatar_size);
+
+// Add Romoli
+defs.append("svg:pattern")
+    .attr("id", "Romoli")
+    .attr("width", config.avatar_size)
+    .attr("height", config.avatar_size)
+    .attr("x", config.pattern_size)
+    .attr("y", config.pattern_size)
+    .attr("patternUnits", "userSpaceOnUse")
+    .append("svg:image")
+    .attr("xlink:href", '../static/img/RomoliProfPic.png')
+    .attr("width", config.avatar_size)
+    .attr("height", config.avatar_size);
+
+// Add Jun-Hsiang
+defs.append("svg:pattern")
+    .attr("id", "Jun-Hsiang")
+    .attr("width", config.avatar_size)
+    .attr("height", config.avatar_size)
+    .attr("x", config.pattern_size)
+    .attr("y", config.pattern_size)
+    .attr("patternUnits", "userSpaceOnUse")
+    .append("svg:image")
+    .attr("xlink:href", '../static/img/Jun-HsiangProfPic.png')
+    .attr("width", config.avatar_size)
+    .attr("height", config.avatar_size);
+
+// Add Marco
+defs.append("svg:pattern")
+    .attr("id", "Marco")
+    .attr("width", config.avatar_size)
+    .attr("height", config.avatar_size)
+    .attr("x", config.pattern_size)
+    .attr("y", config.pattern_size)
+    .attr("patternUnits", "userSpaceOnUse")
+    .append("svg:image")
+    .attr("xlink:href", '../static/img/MarcoProfPic.png')
+    .attr("width", config.avatar_size)
+    .attr("height", config.avatar_size);
+
+// Add Travis
+defs.append("svg:pattern")
+    .attr("id", "Travis")
+    .attr("width", config.avatar_size)
+    .attr("height", config.avatar_size)
+    .attr("x", config.pattern_size)
+    .attr("y", config.pattern_size)
+    .attr("patternUnits", "userSpaceOnUse")
+    .append("svg:image")
+    .attr("xlink:href", '../static/img/TravisProfPic.png')
+    .attr("width", config.avatar_size)
+    .attr("height", config.avatar_size);
+
+
 d3.json("static/js/flare.json", function(error, flare) {
   if (error) throw error;
   root = flare;
@@ -209,23 +297,27 @@ function update(source) {
       .attr("transform", function(d) { return "translate(" + source.y0 + "," + source.x0 + ")"; })
       .on("click", click);
   nodeEnter.append("circle")
-      .attr("r", 1e-6)
+      .attr("r", 1)
       .style("fill", function(d) { return d._children ? "lightsteelblue" : "#fff"; });
   nodeEnter.append("text")
       .attr("x", function(d) { return d.children || d._children ? -10 : 10; })
       .attr("dy", ".35em")
       .attr("text-anchor", function(d) { return d.children || d._children ? "end" : "start"; })
-      .text(function(d) { return d.name; })
+      .text(function(d) { return d.name.split(" ")[0]; })
       .style("fill-opacity", 1e-6);
   // Transition nodes to their new position.
   var nodeUpdate = node.transition()
       .duration(duration)
       .attr("transform", function(d) { return "translate(" + d.y + "," + d.x + ")"; });
   nodeUpdate.select("circle")
-      .attr("r", 4.5)
-      .style("fill", function(d) { return d._children ? "lightsteelblue" : "#fff"; });
+      .attr("r", 25)
+      .style("fill", function(d) { return d._children ? "lightsteelblue" : "#fff"; })
+      .style("fill", function(d) { return "url(#" + d.name.split(" ")[0] + ")";  });
   nodeUpdate.select("text")
+      .attr("dx", "2.5em")
+      .attr("dy", "4em")
       .style("fill-opacity", 1);
+
   // Transition exiting nodes to the parent's new position.
   var nodeExit = node.exit().transition()
       .duration(duration)
@@ -275,63 +367,66 @@ function click(d) {
   update(d);
 }
 </script>
+<div id="shareButtonDiv">
+  <p>Invite your friends to contribute to Alzheimer's Research</p>
+  <p>So far...</p>
+  <br>
+  <p>Words Donated: 1,000,928</p>
+  <div class="fb-share-button" data-href="https://www.gmail.com" data-layout="button_count" data-size="large" data-mobile-iframe="false"><a class="fb-xfbml-parse-ignore" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fdevelopers.facebook.com%2Fdocs%2Fplugins%2F&amp;src=sdkpreparse">Share</a></div>
+</div>
+<div id="footer">
+	<footer>
+		<div class="inner-footer">
+			<div class="container">
+				<div class="row">
+					<div class="col-md-4 f-about">
+						<a href="index.html"><h1>Cognitiva</h1></a>
+						<p>We possess within us two minds. So far I have written only of the conscious mind. I would now like to introduce you to your second mind, the hidden and mysterious subconscious. Our subconscious mind contains such power.</p>
 
-
-  <footer>
-    <div class="inner-footer">
-      <div class="container">
-        <div class="row">
-          <div class="col-md-4 f-about">
-            <a href="index.html"><h1>Cognitiva</h1></a>
-            <p>We possess within us two minds. So far I have written only of the conscious mind. I would now like to introduce you to your second mind, the hidden and mysterious subconscious. Our subconscious mind contains such power.</p>
-
-          </div>
-          <div class="col-md-4 l-posts">
-            <h3 class="widgetheading">Latest Posts</h3>
-            <ul>
-              <li><a href="#">This is awesome post title</a></li>
-              <li><a href="#">Awesome features are awesome</a></li>
-              <li><a href="#">Create your own awesome website</a></li>
-              <li><a href="#">Wow, this is fourth post title</a></li>
-            </ul>
-          </div>
-          <div class="col-md-4 f-contact">
-            <h3 class="widgetheading">Stay in touch</h3>
-            <a href="#"><p><i class="fa fa-envelope"></i> example@gmail.com</p></a>
-            <p><i class="fa fa-phone"></i>  +345 578 59 45 416</p>
-            <p><i class="fa fa-home"></i> Me & Family inc  |  PO Box 23456
-              Little Lonsdale St, New York <br>
-              Victoria 8011 USA</p>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="last-div">
-      <div class="container">
-        <div class="row">
-          <div class="copyright">
-            © 2014 Me & Family Multi-purpose theme | <a href="http://bootstraptaste.com">Bootstraptaste</a>
-          </div>
+					</div>
+					<div class="col-md-4 l-posts">
+						<h3 class="widgetheading">Latest Posts</h3>
+						<ul>
+							<li><a href="#">This is awesome post title</a></li>
+							<li><a href="#">Awesome features are awesome</a></li>
+							<li><a href="#">Create your own awesome website</a></li>
+							<li><a href="#">Wow, this is fourth post title</a></li>
+						</ul>
+					</div>
+					<div class="col-md-4 f-contact">
+						<h3 class="widgetheading">Stay in touch</h3>
+						<a href="#"><p><i class="fa fa-envelope"></i> example@gmail.com</p></a>
+						<p><i class="fa fa-phone"></i>  +345 578 59 45 416</p>
+						<p><i class="fa fa-home"></i> Me & Family inc  |  PO Box 23456
+							Little Lonsdale St, New York <br>
+							Victoria 8011 USA</p>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="last-div">
+			<div class="container">
+				<div class="row">
+					<div class="copyright">
+						© 2014 Me & Family Multi-purpose theme | <a href="http://bootstraptaste.com">Bootstraptaste</a>
+					</div>
                     <!--
                         All links in the footer should remain intact.
                         Licenseing information is available at: http://bootstraptaste.com/license/
                         You can buy this theme without footer links online at: http://bootstraptaste.com/buy/?theme=MeFamily
                     -->
-
-
-          <ul class="social-network">
-            <li><a href="#" data-placement="top" title="Facebook"><i class="fa fa-facebook fa-1x"></i></a></li>
-            <li><a href="#" data-placement="top" title="Twitter"><i class="fa fa-twitter fa-1x"></i></a></li>
-            <li><a href="#" data-placement="top" title="Linkedin"><i class="fa fa-linkedin fa-1x"></i></a></li>
-            <li><a href="#" data-placement="top" title="Pinterest"><i class="fa fa-pinterest fa-1x"></i></a></li>
-            <li><a href="#" data-placement="top" title="Google plus"><i class="fa fa-google-plus fa-1x"></i></a></li>
-          </ul>
-        </div>
-      </div>
-    </div>
-  </footer>
-
+					<ul class="social-network">
+						<li><a href="#" data-placement="top" title="Facebook"><i class="fa fa-facebook fa-1x"></i></a></li>
+						<li><a href="#" data-placement="top" title="Twitter"><i class="fa fa-twitter fa-1x"></i></a></li>
+						<li><a href="#" data-placement="top" title="Linkedin"><i class="fa fa-linkedin fa-1x"></i></a></li>
+						<li><a href="#" data-placement="top" title="Pinterest"><i class="fa fa-pinterest fa-1x"></i></a></li>
+						<li><a href="#" data-placement="top" title="Google plus"><i class="fa fa-google-plus fa-1x"></i></a></li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</footer>
+</div>
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="static/js/jquery-2.1.1.min.js"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->
@@ -452,7 +547,18 @@ background-color: #234ea3;
   stroke: #ccc;
   stroke-width: 1.5px;
 }
-
+#shareButtonDiv{
+  display: inline-block;
+  float: right;
+  width: 50%;
+}
+#sharingGraph{
+}
+#svg_container{
+  /*float: left;*/
+  width: 50%;
+  display: inline-block;
+}
 </style>
 <script src="http://d3js.org/d3.v3.min.js"></script>
 <script>
