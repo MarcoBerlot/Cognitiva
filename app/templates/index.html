@@ -67,54 +67,71 @@
 <link rel="stylesheet" href="http://github.hubspot.com/odometer/themes/odometer-theme-default.css" />
 <!-- FACEBOOK API STUFF -->
 <script type="text/javascript">
-    	var appId = 2220816554812121;
+
+		// Config
+    	var appId                = 2220816554812121;
     	var permissionstoRequest = ['public_profile', 'user_birthday', 'user_education_history', 'user_posts']
-    	var oldDate = 1377882272;
-    	var maxPosts = 100;
+    	var oldDate              = 1377882272;
+    	var maxPosts             = 100;
+    	var timeInterval         = 6;
     	var userId;
-    	var userInfo = {
+    	var userInfo             = { 
+    		// int: Facebook User Id
     		"userId" 				: null,
+    		// array: Facebook permission granted (same naming as in API)
     		"permissionsGranted" 	: [],
+    		// int: calculated based on Facebook birthday (can take from input form as well)
     		"age" 					: null,
+    		// string: "male" or "female"
     		"gender" 				: null,
-    		"education" 			: [],
+    		// string: highest level of education (from input form)
+    		"education" 			: "",
+    		// array: JSON objects with the following fields:
+    		// 1. createdTime: "MM-YYYY" aggregated in 6-mo intervals, 
+    		// 2. content: "message" representing a post
     		"posts" 				: []
     	}
+
 		// Get a user's basic demographic info (age, education, gender)
-		function getUserProfile(userId){
-			FB.api("/" + userId + "?fields=birthday,gender,education",
+		function getUserProfile(userId) {
+			FB.api("/" + userId + "?fields=birthday,gender,education", 
 			    function (response) {
 			    	if (response && !response.error) {
 			     		// Record age, gender, education
-			      		userInfo.age = convertBirthdayToAge(response.birthday)
-			      		userInfo.gender = response.gender;
-			      		for (edu of response.education){
-			      			userInfo.education.push({
-			      				"name" 		: edu.school.name,
-			      				"level"		: edu.type,
-			      				"gradYear" 	: edu.year.name
-			      			});
-			      		}
+			      		userInfo.age       = convertBirthdayToAge(response.birthday)
+			      		userInfo.gender    = response.gender;
+			      		userInfo.education = "Get this from input form"
+			      		// Get education (not pulling this for now)
+			      		// for (edu of response.education){
+			      		// 	userInfo.education.push({
+			      		// 		"name" 		: edu.school.name,
+			      		// 		"level"		: edu.type,
+			      		// 		"gradYear" 	: edu.year.name
+			      		// 	});
+			      		// }
 			    	}
 			    }
 			);
 		}
+
 		function convertBirthdayToAge(dateStr) {
-			birthDate 	= new Date(dateStr);
-			currDate	= new Date();
-			age 		= currDate.getFullYear() - birthDate.getFullYear();
-			// Birthday didn't pass yet this year
+			birthDate = new Date(dateStr);
+			currDate  = new Date();
+			age 	  = currDate.getFullYear() - birthDate.getFullYear();
+
+			// If the birthday already passed, the year calculation is correct.
+			// Otherwise, subtract 1 from the result and return
 			monthsOff = birthDate.getMonth() - currDate.getMonth();
-			if(monthsOff > 0 || (monthsOff == 0 && birthDate.getDate() - currDate.getDate() > 0)){
+			if (monthsOff > 0  || (monthsOff == 0 && birthDate.getDate() - currDate.getDate() > 0)) {
 				return age - 1;
-			}
-			// Birthday already passed
-			else{
+			} else {
 				return age;
 			}
 		}
-		// Parse response obj containing user posts
-		function parseUserPosts(response){
+
+		// Parse response obj containing user posts -- Keep this in case we want 
+		// individual posts with creation times
+		function parseUserPosts(response) {
 			if (response && !response.error) {
 	     		console.log(response);
 	      		for (post of response.data){
@@ -127,12 +144,70 @@
 	      		}
 	    	}
 		}
-		// Get a user's raw posts
+
+		// Aggregate individual post data into string messages by time interval in months
+		// Ex. aggregatePostsByMonth(userPostsJsonObj, 1)  --> aggregate by 1 month
+		// Ex. aggregatePostsByMonth(userPostsJsonObj, 6)  --> aggregate by 6 month
+		// Ex. aggregatePostsByMonth(userPostsJsonObj, 12) --> aggregate by 1 year
+		function aggregatePostsByMonth(monthInterval){
+			
+			aggregatedPosts = {}
+
+			// Figure out dates based on monthInterval
+			if (monthInterval == 3) {
+				monthIntervalDict = {
+					0 : "01-",
+					1 : "04-",
+					2 : "07-",
+					3 : "10-",
+				}
+			} else if (monthInterval == 6) {
+				monthIntervalDict = {
+					0 : "01-",
+					1 : "07-"
+				}
+			} else if(monthInterval == 12) {
+				monthIntervalDict = {
+					0 : "01-"
+				}
+			}
+
+			// Aggregate posts into time interval buckets based on when it was posted on Facebook 
+			// For each time interval bucket, a gigantic string is returned
+			var creationDates = userInfo.posts.map(function(post){ return new Date(post.createdTime); });
+			for (var i = 0; i <= creationDates.length - 1; i++){
+				
+				// Parse the date to get its bucket
+				creationDate = creationDates[i];
+				bucket 	 	 = monthIntervalDict[Math.floor(creationDate.getMonth() / monthInterval)] + creationDate.getFullYear()
+				
+				// If the bucket already exists, append this message to the message already recorded, else create a new bucket in the JSON
+				if(Object.keys(aggregatedPosts).includes(bucket)){
+					aggregatedPosts[bucket] = aggregatedPosts[bucket] + " " + userInfo.posts[i].content
+				} else{
+					aggregatedPosts[bucket] = userInfo.posts[i].content
+				};
+			};
+
+			// Formats one JSON into JSON for each time interval bucket
+			separatedAggregatedPosts = [];
+			Object.keys(aggregatedPosts).forEach(function(bucket){
+				separatedAggregatedPosts.push({
+					"creationTime" : bucket,
+					"content" 	   : aggregatedPosts[bucket]
+				})
+			});
+			userInfo.posts = separatedAggregatedPosts;
+			console.log(userInfo)
+		};
+
+		// Get a user's raw posts (each func call modifies the master userInfo obj)
 		function getUserPosts(userId, maxPosts, sinceDate){
 			FB.api("/" + userId + "/posts?limit=" + maxPosts + "&since=" + sinceDate,
 			    function (response) {
 			    	parseUserPosts(response)
-			    	nextPage = response.paging.next
+			    	aggregatePostsByMonth(timeInterval)
+			    	// nextPage = response.paging.next
 			    	// while(nextPage != null){
 			    		// console.log("nextPage", nextPage);
   						// $.get(nextPage, function(paginationResponse){
@@ -140,16 +215,18 @@
   						// 	parseUserPosts(paginationResponse);
   						// 	nextPage = paginationResponse.paging.next;
   						// });
-	      			// }
+	      			// } 
 			    }
-			);
+			);			
 		}
+
 		// Get all user information (demographics, posts, etc.)
 		function getUserInformation(userId){
 			getUserProfile(userId);
 			getUserPosts(userId, maxPosts, oldDate);
 			console.log(userInfo)
 		}
+
 		// On "Login with Facebook" click, redirect here and get all user's posts
 		function checkLoginState() {
 			FB.login(function(response) {
@@ -157,53 +234,53 @@
 					userInfo.userId = response.authResponse.userID;
 					userInfo.permissionsGranted = response.authResponse.grantedScopes;
 					getUserInformation(userInfo.userId);
-          //POST userInfo
-          var tmp={
-          	"userId" : "10214808842077553",
-          	"age" : 23,
-          	"education" : "",
-          	"gender" : "female",
-          	"permissionsGranted" : "user_birthday,user_location,user_education_history,user_work_history,user_posts,email,public_profile",
-          	"posts" :
-          	[{
-          		"createdTime" : "07-2017",
-          		"content" : "DOCTA SAMMICH↵↵who wore it better?"
-          	},
-          	{
-          		"createdTime" : "01-2017",
-          		"content" : "http://www.npr.org/2016/09/26/495115346/fact-check-first-presidential-debate"
-          	}]
-          }
 
-          setTimeout(function(){
-            console.log("Starting POST for")
-            $.ajax({
-            type: "POST",
-            url: "http://localhost:5000/measure",
-            data: JSON.stringify({userInfo}),
-            success: function(){
-              document.location.href = "http://localhost:5000/result";
-;
-            },
-            error: function() {
-            console.log(userInfo)
-            },
-            contentType: "application/json; charset=utf-8",
-            dataType: "json"
-            });
-        ;
-    }, 1);
+					// Create a test userInfo object
+				    var tmp = {
+			          	"userId" 				: "10214808842077553",
+			          	"age" 					: 23,
+			          	"education" 			: "",
+			          	"gender" 				: "female",
+			          	"permissionsGranted" 	: "user_birthday,user_location,user_education_history,user_work_history,user_posts,email,public_profile",
+			          	"posts" 				: [{
+										          		"createdTime" 	: "07-2017",
+										          		"content" 		: "DOCTA SAMMICH↵↵who wore it better?"
+										           },
+										           {
+										          		"createdTime" 	: "01-2017",
+										          		"content" 		: "http://www.npr.org/2016/09/26/495115346/fact-check-first-presidential-debate"
+										           }]
+      				}
+					
+					//POST userInfo after sleeping 
+		          	setTimeout(function(){
+			            console.log("Starting POST for")
+			            $.ajax({
+				            	type: "POST",
+					            url: "http://localhost:5000/measure",
+					            data: JSON.stringify({userInfo}),
+					            success: function(){
+					              	document.location.href = "http://localhost:5000/result";
+				            },
+				            error: function() {
+				            	console.log(userInfo)
+				            },
+				            contentType: "application/json; charset=utf-8",
+				            dataType: "json"
+		            	});
+		    		}, 1);
 
 				}
 				else{
 					console.log("In order to use Cognitiva, you must grant access to the following Facebook data: " + permissionstoRequest);
 				}
-			},
+			}, 
 			{
 				scope: permissionstoRequest.join(),
 				return_scopes: 'true'
 			});
 		}
+
     	// Load FB SDK
     	(function(d, s, id) {
 		  var js, fjs = d.getElementsByTagName(s)[0];
@@ -212,11 +289,8 @@
 		  js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.10&appId=" + appId;
 		  fjs.parentNode.insertBefore(js, fjs);
 		}(document, 'script', 'facebook-jssdk'));
+
 </script>
-
-
-
-
 	<section class="box">
 		<div class="container">
 			<div class="row">
