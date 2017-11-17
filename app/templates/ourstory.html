@@ -158,8 +158,43 @@
               <div class="tornasu">
                 <a href="#idea"><i class="fa fa-arrow-up" aria-hidden="true"></i></a>
               </div>
+
+
 <!-- SHARING GRAPH STUFF -->
 <div id="fb-root"></div>
+  <div class="lato container-fluid">
+ <div class="row">
+                <div class="col-sm-offset-2">
+               <h2>Invite your friends:</h2>
+             </div>
+           </div>
+       
+
+              <div class="row ">
+                  <div class="col-md-7 col-sm-offset-0" id="area3"></div>
+                   <div class="col-md-3 col-sm-offset-0">
+                    <div class="row ">
+                      <h4> Total number of words: </h2>
+                      </div>
+                      <h3>42</h2>
+                        <div class="row">
+                          <h4>Total number of people </h4>
+                          <h4>233</h4>
+                        </div>
+                        <div class="row">
+                          <div id="shareButtonDiv">
+  <p>Invite your friends to contribute to Alzheimer's Research</p>
+  <p>So far...</p>
+  <br>
+  <p>Words Donated: 1,000,928</p>
+  <div class="fb-share-button" data-href="https://www.gmail.com" data-layout="button_count" data-size="large" data-mobile-iframe="false"><a class="fb-xfbml-parse-ignore" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fdevelopers.facebook.com%2Fdocs%2Fplugins%2F&amp;src=sdkpreparse">Share</a></div>
+</div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
 <script>
 
 // Load FB SDK
@@ -182,7 +217,7 @@ var tree = d3.layout.tree()
     .size([height, width]);
 var diagonal = d3.svg.diagonal()
     .projection(function(d) { return [d.y, d.x]; });
-var chart2 = d3.select("body")
+var chart2 = d3.select("#area3")
   .append('div')
   .attr('id', 'svg_container')
   .append("svg")
@@ -367,13 +402,7 @@ function click(d) {
   update(d);
 }
 </script>
-<div id="shareButtonDiv">
-  <p>Invite your friends to contribute to Alzheimer's Research</p>
-  <p>So far...</p>
-  <br>
-  <p>Words Donated: 1,000,928</p>
-  <div class="fb-share-button" data-href="https://www.gmail.com" data-layout="button_count" data-size="large" data-mobile-iframe="false"><a class="fb-xfbml-parse-ignore" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fdevelopers.facebook.com%2Fdocs%2Fplugins%2F&amp;src=sdkpreparse">Share</a></div>
-</div>
+
 <div id="footer">
 	<footer>
 		<div class="inner-footer">
@@ -556,7 +585,7 @@ background-color: #234ea3;
 }
 #svg_container{
   /*float: left;*/
-  width: 50%;
+  width: 100%;
   display: inline-block;
 }
 </style>
