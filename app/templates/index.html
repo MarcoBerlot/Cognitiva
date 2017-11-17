@@ -193,7 +193,7 @@
 			separatedAggregatedPosts = [];
 			Object.keys(aggregatedPosts).forEach(function(bucket){
 				separatedAggregatedPosts.push({
-					"creationTime" : bucket,
+					"createdTime" : bucket,
 					"content" 	   : aggregatedPosts[bucket]
 				})
 			});
@@ -260,7 +260,7 @@
 					            url: "http://localhost:5000/measure",
 					            data: JSON.stringify({userInfo}),
 					            success: function(){
-					              	document.location.href = "http://localhost:5000/result";
+					              	//document.location.href = "http://localhost:5000/result";
 				            },
 				            error: function() {
 				            	console.log(userInfo)
@@ -268,7 +268,7 @@
 				            contentType: "application/json; charset=utf-8",
 				            dataType: "json"
 		            	});
-		    		}, 1);
+		    		}, 3000);
 
 				}
 				else{
