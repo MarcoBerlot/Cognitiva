@@ -59,9 +59,59 @@
 		<!-- "Log in with Facebook" Button-->
 <!--   		 <div class="fb-login-button" data-max-rows="1" data-size="large" data-button-type="login_with" data-show-faces="false" data-auto-logout-link="false" data-use-continue-as="false" scope="public-profile,user_posts" onclick="checkLoginState();"></div>  -->
   		<!-- <fb:login-button data-scope="public_profile,email,user_posts" onlogin="checkLoginState();"></fb:login-button> -->
-  		
+
   		<fb:login-button onlogin="checkLoginState();"></fb:login-button>
 	</div>
+<!-- Modal -->
+<div id="myModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Researchers would like to confirm your information</h4>
+      </div>
+      <div class="modal-body">
+        <form>
+  <div class="form-group">
+    <label for="age">Age</label>
+    <input type="number" class="form-control" id="age" placeholder="Confirm Age">
+  </div>
+  <div class="form-group">
+    <label for="education">Highest Education</label>
+    <select class="form-control" id="education">
+      <option value="High School">High School</option>
+      <option value="Bachelor">Bachelor</option>
+      <option value="Masters">Master's Degree or Higher</option>
+    </select>
+  </div>
+  <div class="form-group">
+    <label>Sex</label>
+    <br/>
+    <label class="radio-inline">
+      <input type="radio" name="Male" value="Male">Male
+    </label>
+    <label class="radio-inline">
+      <input type="radio" name="Female" value="Female">Female
+    </label>
+  </div>
+  <div class="form-check">
+    <label class="form-check-label">
+      <input type="checkbox" class="form-check-input">
+      I agree to share my Facebook data with researchers
+    </label>
+  </div>
+  <button type="submit" id="modalSubmit" class="btn btn-primary">Submit</button>
+</form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+
+  </div>
+</div>
 <script src="https://d3js.org/d3.v3.min.js"></script>
 <script src="http://github.hubspot.com/odometer/odometer.js"></script>
 <link rel="stylesheet" href="http://github.hubspot.com/odometer/themes/odometer-theme-default.css" />
@@ -75,7 +125,7 @@
     	var maxPosts             = 100;
     	var timeInterval         = 6;
     	var userId;
-    	var userInfo             = { 
+    	var userInfo             = {
     		// int: Facebook User Id
     		"userId" 				: null,
     		// array: Facebook permission granted (same naming as in API)
@@ -87,14 +137,14 @@
     		// string: highest level of education (from input form)
     		"education" 			: "",
     		// array: JSON objects with the following fields:
-    		// 1. createdTime: "MM-YYYY" aggregated in 6-mo intervals, 
+    		// 1. createdTime: "MM-YYYY" aggregated in 6-mo intervals,
     		// 2. content: "message" representing a post
     		"posts" 				: []
     	}
 
 		// Get a user's basic demographic info (age, education, gender)
 		function getUserProfile(userId) {
-			FB.api("/" + userId + "?fields=birthday,gender,education", 
+			FB.api("/" + userId + "?fields=birthday,gender,education",
 			    function (response) {
 			    	if (response && !response.error) {
 			     		// Record age, gender, education
@@ -129,7 +179,7 @@
 			}
 		}
 
-		// Parse response obj containing user posts -- Keep this in case we want 
+		// Parse response obj containing user posts -- Keep this in case we want
 		// individual posts with creation times
 		function parseUserPosts(response) {
 			if (response && !response.error) {
@@ -150,7 +200,7 @@
 		// Ex. aggregatePostsByMonth(userPostsJsonObj, 6)  --> aggregate by 6 month
 		// Ex. aggregatePostsByMonth(userPostsJsonObj, 12) --> aggregate by 1 year
 		function aggregatePostsByMonth(monthInterval){
-			
+
 			aggregatedPosts = {}
 
 			// Figure out dates based on monthInterval
@@ -172,15 +222,15 @@
 				}
 			}
 
-			// Aggregate posts into time interval buckets based on when it was posted on Facebook 
+			// Aggregate posts into time interval buckets based on when it was posted on Facebook
 			// For each time interval bucket, a gigantic string is returned
 			var creationDates = userInfo.posts.map(function(post){ return new Date(post.createdTime); });
 			for (var i = 0; i <= creationDates.length - 1; i++){
-				
+
 				// Parse the date to get its bucket
 				creationDate = creationDates[i];
 				bucket 	 	 = monthIntervalDict[Math.floor(creationDate.getMonth() / monthInterval)] + creationDate.getFullYear()
-				
+
 				// If the bucket already exists, append this message to the message already recorded, else create a new bucket in the JSON
 				if(Object.keys(aggregatedPosts).includes(bucket)){
 					aggregatedPosts[bucket] = aggregatedPosts[bucket] + " " + userInfo.posts[i].content
@@ -215,9 +265,9 @@
   						// 	parseUserPosts(paginationResponse);
   						// 	nextPage = paginationResponse.paging.next;
   						// });
-	      			// } 
+	      			// }
 			    }
-			);			
+			);
 		}
 
 		// Get all user information (demographics, posts, etc.)
@@ -251,35 +301,44 @@
 										          		"content" 		: "http://www.npr.org/2016/09/26/495115346/fact-check-first-presidential-debate"
 										           }]
       				}
-					
-					//POST userInfo after sleeping 
-		          	setTimeout(function(){
-			            console.log("Starting POST for")
-			            $.ajax({
-				            	type: "POST",
-					            url: "http://localhost:5000/measure",
-					            data: JSON.stringify({userInfo}),
-					            success: function(){
-					              	//document.location.href = "http://localhost:5000/result";
-				            },
-				            error: function() {
-				            	console.log(userInfo)
-				            },
-				            contentType: "application/json; charset=utf-8",
-				            dataType: "json"
-		            	});
-		    		}, 3000);
+
+      		$('#myModal').modal('show');
+
+          $( "#modalSubmit" ).click(function() {
+              postToServer(userInfo);
+          });
 
 				}
 				else{
 					console.log("In order to use Cognitiva, you must grant access to the following Facebook data: " + permissionstoRequest);
 				}
-			}, 
+			},
 			{
 				scope: permissionstoRequest.join(),
 				return_scopes: 'true'
 			});
 		}
+
+		   function postToServer(userInfo) {
+   					//POST userInfo after sleeping
+          	setTimeout(function(){
+	            console.log("Starting POST for")
+	            $.ajax({
+		            	type: "POST",
+			            url: "http://localhost:5000/measure",
+			            data: JSON.stringify({userInfo}),
+			            success: function(){
+			              	//document.location.href = "http://localhost:5000/result";
+		            },
+		            error: function() {
+		            	console.log(userInfo)
+		            },
+		            contentType: "application/json; charset=utf-8",
+		            dataType: "json"
+            	});
+    		}, 3000);
+
+         }
 
     	// Load FB SDK
     	(function(d, s, id) {
