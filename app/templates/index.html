@@ -22,9 +22,13 @@
     <![endif]-->
   </head>
   <body>
-  <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+  <nav class="navbar navbar-default navbar-fixed-top" role="navigation" id="white">
     <div class="container">
       <!-- Brand and toggle get grouped for better mobile display -->
+      <div class="navbar-header">
+      <img src="static/img/c.png" alt="Cognitiva Logo" style=" max-width: 70px; max-height: 70px">
+      </div>
+
       <div class="navbar-header">
         <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".navbar-collapse.collapse">
           <span class="sr-only">Toggle navigation</span>
@@ -44,11 +48,69 @@
       </div>
     </div>
   </nav>
-
 <div class="hidden" id="loader"></div>
 
 
-  <div class="jumbotron top-margin">
+  <div class="jumbotron top-margin" style="margin-top: 50px; padding-bottom: 0px;">
+     <!-- <img src="static/img/c.png" alt="Cognitiva Logo" style=" max-width: 130px;"> -->
+    <!-- <h1>Cognitiva</h1> -->
+
+    <!-- <div>
+      <h2>Fuck you</h2>
+    </div> -->
+    <section class="box" id="grey">
+
+    <div style="height: 15%;"></div>
+
+      <div class="container">
+        <div class="row h-100">
+          <div class="col-md-2">
+          </div>
+
+          <div class="col-md-8">
+            <div class="wow bounceIn" data-wow-offset="0" data-wow-delay="0.4s">
+              
+              <h1 style="color: white"; id="header">Welcome to Cognitiva!</h1>
+              
+
+            </div>
+
+          </div>
+          <div class="col-md-2">
+          </div>
+
+          
+      </div>
+      <div class="row">
+      <div class="col-md-8 col-md-offset-2">
+      <h2 style="color: white";>Analyze your writing patterns and contribute to Alzheimer's reaserch, all in one click!</h2>
+      </div>
+      </div>
+      
+      <div class="col-md-4"></div>
+      <div class="col-md-4">
+        
+        
+      </div>
+      <div class="col-md-4"></div>
+
+      </div>
+      </div>
+
+      <!-- <div class="row">
+      </div> -->
+
+    </section>
+    <div class="container">
+    <div class="row">
+    
+    <div class="col-md-3 col-md-offset-5">
+      <text style="color: white">haha</text><fb:login-button onlogin="checkLoginState();" id="FBbut"></fb:login-button>
+    </div>
+    
+    </div>
+    </div>
+  <!-- <div class="jumbotron top-margin">
      <img src="static/img/c.png" alt="Cognitiva Logo" style=" max-width: 130px;">
     <h1>Cognitiva</h1>
     <p>
@@ -56,13 +118,13 @@
     </p>
     <p>
       Number of collected words:                 <div id="odometer2" class="odometer">0</div>
-    </p>
+    </p> -->
     <!-- "Log in with Facebook" Button-->
 <!--       <div class="fb-login-button" data-max-rows="1" data-size="large" data-button-type="login_with" data-show-faces="false" data-auto-logout-link="false" data-use-continue-as="false" scope="public-profile,user_posts" onclick="checkLoginState();"></div>  -->
       <!-- <fb:login-button data-scope="public_profile,email,user_posts" onlogin="checkLoginState();"></fb:login-button> -->
 
-      <fb:login-button onlogin="checkLoginState();"></fb:login-button>
-  </div>
+      <!-- <fb:login-button onlogin="checkLoginState();" id="FBbut"></fb:login-button> -->
+  <!-- </div> -->
 <!-- Modal -->
 <div id="myModal" class="modal fade" role="dialog">
   <div class="modal-dialog">
@@ -307,8 +369,8 @@
               }
           $('#myModal').modal('show');
           $( "#modalSubmit" ).click(function() {
-            $( "#loader" ).removeClass( "hidden" )
-            $( "#myModal" ).addClass( "hidden" )
+             $( "#loader" ).removeClass( "hidden" )
+             $( "#myModal" ).addClass( "hidden" )
             console.log("Starting POST for")
              postToServer(userInfo);
           });
@@ -332,55 +394,63 @@
       fjs.parentNode.insertBefore(js, fjs);
     }(document, 'script', 'facebook-jssdk'));
 </script>
-  <section class="box">
+
+
+
+  <section class="box" id="white2">
     <div class="container">
       <div class="row">
         <div class="col-md-4">
           <div class="wow bounceIn" data-wow-offset="0" data-wow-delay="0.4s">
             <div class="services">
-              <div class="icons">
+              <!-- <div class="icons">
                 <i class="fa fa-heart-o fa-3x"></i>
-              </div>
-              <h4>Care</h4>
+              </div> -->
+              <h4>Idea Density</h4>
               <p>
-              We care about each individual’s well being. We aspire to help those in need before they even know they need help!
+              Idea density measures how succinctly you express yourself in your writings.
               </p>
             </div>
           </div>
-          <hr>
+          <!-- <hr> -->
         </div>
 
         <div class="col-md-4">
           <div class="wow bounceIn" data-wow-offset="0" data-wow-delay="0.8s">
             <div class="services">
-              <div class="icons">
+              <!-- <div class="icons">
                 <i class="fa fa-desktop fa-3x"></i>
-              </div>
-              <h4>Analytics</h4>
+              </div> -->
+              <h4>Alzheimer's Disease</h4>
               <p>
-              We streamline massive amounts of data and compare your results with the population.
+              According to the Alzheimer's Association, more than 5 million Americans live with Alzheimer's Disease.
               </p>
             </div>
           </div>
-          <hr>
+          <!-- <hr> -->
         </div>
 
         <div class="col-md-4">
           <div class="wow bounceIn" data-wow-offset="0" data-wow-delay="1.2s">
             <div class="services">
-              <div class="icons">
+              <!-- <div class="icons">
                 <i class="fa fa-thumbs-o-up fa-3x"></i>
+              </div> -->
+              <div class="row">
+              <h4>Our Partners</h4>
               </div>
-              <h4>Social Media</h4>
-              <p>
-              t’s as simple as a single click! All you need to do is grant us access to your social media data, and we will handle the rest, in a completely secure manner!
-              </p>
+              <div class="row">
+                <div class="col-md-4 col-md-offset-2" > <img src="static/img/alzheimers-association-logo1.gif" alt="Mountain View" width="140px" height="auto"> </div>
+                <div class="col-md-4"> <img src="static/img/Lilly-Logo1.jpg" alt="Mountain View" width="120px" height="auto"> </div>
+              </div>
+              
             </div>
           </div>
-          <hr>
+          <!-- <hr> -->
         </div>
 
     </div>
+
   </section>
 
 
@@ -460,6 +530,43 @@
   </script>
   </body>
 </html>
+<style>
+  #grey{
+
+    height: 70vh; 
+    background-size:     cover;                      /* <------ */
+    background-repeat:   no-repeat;
+    background-position: center center;   
+    background-image: linear-gradient(to right, rgba(0,0,0,0.3) 0%,rgba(0,0,0,0.1) 100%), url("static/img/Untitled design.png");
+  }
+
+  #FBbut{
+    visibility: hidden;
+  }
+
+#white{
+  background-color: #FFFFFF;
+}
+
+#white2{
+  background-color: #FFFFFF;
+  padding-top: 120px;
+}
+
+#FBrow{
+  margin-top: 30%;
+  margin-left: 3%;
+}  
+
+#header{
+    font-family: courier;
+    font-size: 350%;
+}
+.navbar {
+    
+    margin:0; /*add this*/
+}
+</style>
 <style>
 .odometer {
 font-size: 25px;
