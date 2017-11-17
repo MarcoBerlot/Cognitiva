@@ -8,10 +8,10 @@
 
     <!-- Bootstrap -->
     <link href="static/css/bootstrap.min.css" rel="stylesheet">
-	<link rel="stylesheet" href="static/css/animate.css">
-	<link rel="stylesheet" href="static/css/font-awesome.min.css">
-	<link rel="stylesheet" href="static/css/jquery.bxslider.css">
-	<link href="static/css/style.css" rel="stylesheet">
+  <link rel="stylesheet" href="static/css/animate.css">
+  <link rel="stylesheet" href="static/css/font-awesome.min.css">
+  <link rel="stylesheet" href="static/css/jquery.bxslider.css">
+  <link href="static/css/style.css" rel="stylesheet">
   <script src="https://d3js.org/d3.v3.min.js"></script>
   <script src="http://github.hubspot.com/odometer/odometer.js"></script>
   <link rel="stylesheet" href="http://github.hubspot.com/odometer/themes/odometer-theme-default.css" />
@@ -24,32 +24,32 @@
     <![endif]-->
   </head>
   <body>
-	<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
-		<div class="container">
-			<!-- Brand and toggle get grouped for better mobile display -->
-			<div class="navbar-header">
-				<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".navbar-collapse.collapse">
-					<span class="sr-only">Toggle navigation</span>
-					<span class="icon-bar"></span>
-					<span class="icon-bar"></span>
-					<span class="icon-bar"></span>
-				</button>
-				<a class="navbar-brand" href="/">Cognitiva</a>
-			</div>
-			<div class="navbar-collapse collapse">
-				<div class="menu">
-					<ul class="nav nav-tabs" role="tablist">
-						<li role="presentation"><a href="/">Home</a></li>
-						<li role="presentation" class="active"><a href="ourstory.html">Idea Density</a></li>
-					</ul>
-				</div>
-			</div>
-		</div>
-	</nav>
+  <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+      <!-- Brand and toggle get grouped for better mobile display -->
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".navbar-collapse.collapse">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="/">Cognitiva</a>
+      </div>
+      <div class="navbar-collapse collapse">
+        <div class="menu">
+          <ul class="nav nav-tabs" role="tablist">
+            <li role="presentation"><a href="/">Home</a></li>
+            <li role="presentation" class="active"><a href="ourstory.html">Idea Density</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </nav>
 
-	<div class="breadcrumb">
-		<h2>Idea Density</h2>
-	</div>
+  <div class="breadcrumb">
+    <h2>Thank you for your contribution to Alzheimer's research</h2>
+  </div>
   <div class="lato container-fluid">
       <div class="row">
 
@@ -59,93 +59,110 @@
 
                   </div>
               </div>
+          
               <div class="row">
-                <div class="col-md-9 col-sm-offset-2">
-                <h4>Idea Density is a measurement of the complexity of your written samples.  Research has shown that this score is correlated with cognitive decline and dementia.  Our tool allows you to visualize trends in the Idea Density of your social media posts. </h3>
-                </div>
-              </div>
-              <div class="row">
-                <div class="col-sm-offset-2">
+              <div class="col-sm-offset-5">
               <div class="menu_simple">
-              <h3>INDEX</h3>
                   <ul>
                     <div id="anchor-menu">
                         <div id="anchor-entry">
                           <li>
-                            <a href="#idea">Graph</a>
+                            <a href="#idea">Invite Your Friends</a>
                           </br>
                         </li>
                     </div>
-                    <div id="anchor-entry">
-                      <li>
-                        <a href="#result">Score Analysis</a>
-                      </br>
-                    </li>
-                </div>
+                   
                   </ul>
                 </div>
               </div>
+
+
             </div>
-</div>
+             <div class="row">
+                <div class="col-sm-offset-2">
+               <h2>Your Idea Density Over Time:</h2>
+             </div>
+           </div>
+         </div>
 
               <div class="row ">
-                  <div class="col-md-10 col-sm-offset-2" id="area2"></div>
+                  <div class="col-md-7 col-sm-offset-2" id="area2"></div>
+                   <div class="col-md-3 col-sm-offset-0">
+                    <div class="row ">
+                      <h4> Total number of words: </h2>
+                      </div>
+                      <div class="row ">
+                      <div id="odometer" class="odometer">4220</div>
+                      </div>
+                    </div>
+                    <div class="row ">
+                      <h4> Number of Measured Posts </h2>
+                      <div class="row ">
+                      <div id="odometer1" class="odometer">321000</div>
+                       <div class="row ">
+                        <h4> Current Score:</h2>
+                          <div class="row ">
+                      <div id="odometer2" class="odometer">0</div>
+                        </div>
+                      </div>
+
+                      </div>
+
               </div>
           </div>
       </div>
       <div class="row" >
-      <script src="/static/bar.js"></script>
-
     </div>
 
       <div class="row" id="result">
         <div class="col-md-4 col-sm-offset-2" >
-          <h2>Score Analysis</h2>
+          <h2>Idea Density</h2>
         </div>
         </div>
         <div class="col-md-9 col-sm-offset-2">
-        <h4>Each bar in the graph above displays your idea density score over a 6-month interval.  The possible scores range from 0 to 100.  Below is your current idea density score (from posts in the last 6 months), the percent change in your score over the last 5 years, and the number of posts we analyzed.</h3>
-        </div>
-        <div class="row">
-          <div class="col-md-3 col-sm-offset-2">
-            <h3> Current Idea Density: </h2>
-          </div>
-          <div class="col-md-1 col-sm-offset-1 top-margin">
-            <div id="odometer" class="odometer">0</div>
-          </div>
-          </div>
-          <div class="row">
-            <div class="col-md-3 col-sm-offset-2">
-              <h3> Trend In Your Last 5 years: </h2>
-            </div>
-            <div class="col-md-1 col-sm-offset-1 top-margin">
-              <div id="odometer1" class="odometer">0</div>%
-            </div>
-            </div>
-            <div class="row down-buffer ">
-              <div class="col-md-3 col-sm-offset-2">
-                <h3> Number of Measured Posts: </h2>
-              </div>
-              <div class="col-md-1 col-sm-offset-1 top-margin">
-                <div id="odometer2" class="odometer">0</div>
+        <h4>Idea density measures how succinctly you express yourself. 
+          Each bar in the graph above displays your idea density score over a 6-month interval.  The possible scores range from 0 to 100.  </h3>
 
-              </div>
-              </div>
-              <div class="row  ">
-                <div class="col-md-1 col-sm-offset-2">
-                <h3>Thanks</h3>
-              </div>
-              </div>
-                <div class="row" id="mygraph">
-                  
-                </div>
+      <div class="row top-margin">
+          <div class="col-md-4 col-sm-offset-4" >
+            <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">Read More</button>
+
+  <!-- Modal -->
+  <div class="modal fade" id="myModal" role="dialog">
+    <div class="modal-dialog">
+    
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Idea Density</h4>
+        </div>
+        <div class="modal-body">
+          <p>When we write, we aim to express our thoughts in a clear and intelligent manner.  But how can we measure if we are succeeding in doing so?</p>
+          <p>One’s Idea Density refers to how concisely they express themselves in their writing.  Specifically, it refers to the number of “ideas” they express every 10 words, where ideas correspond to elementary propositions (typically verbs, adjectives, adverbs, or prepositional phrases).</p>
+          <p>In 1996, a groundbreaking study was published that showed that our idea density might tell us more than just about our writing patterns.  This “Nun Study” tracked a group of Nuns over time, and showed that the idea density in their writing in their early lives could foretell their risk of developing Alzheimer’s decades later.</p>
+          <p>We believe that Idea Density may be a key to unlock secrets about Alzheimer’s so that we can predict it earlier and better understand how to prevent it.  By contributing your data, you are helping advance research to understand this powerful concept.</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+      
+    </div>
+  </div>
+  
+</div>
+        </div>
+   </div>
+        </div>
+
+
               <div class="tornasu">
                 <a href="#idea"><i class="fa fa-arrow-up" aria-hidden="true"></i></a>
               </div>
 
               <script>
               
-
 var margin = {top: 20, right: 120, bottom: 20, left: 120},
     width = 960 - margin.right - margin.left,
     height = 800 - margin.top - margin.bottom;
@@ -260,42 +277,42 @@ function click(d) {
 </script>
 
 
-	<footer>
-		<div class="inner-footer">
-			<div class="container">
-				<div class="row">
-					<div class="col-md-4 f-about">
-						<a href="index.html"><h1>Cognitiva</h1></a>
-						<p>We possess within us two minds. So far I have written only of the conscious mind. I would now like to introduce you to your second mind, the hidden and mysterious subconscious. Our subconscious mind contains such power.</p>
+  <footer>
+    <div class="inner-footer">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-4 f-about">
+            <a href="index.html"><h1>Cognitiva</h1></a>
+            <p>We possess within us two minds. So far I have written only of the conscious mind. I would now like to introduce you to your second mind, the hidden and mysterious subconscious. Our subconscious mind contains such power.</p>
 
-					</div>
-					<div class="col-md-4 l-posts">
-						<h3 class="widgetheading">Latest Posts</h3>
-						<ul>
-							<li><a href="#">This is awesome post title</a></li>
-							<li><a href="#">Awesome features are awesome</a></li>
-							<li><a href="#">Create your own awesome website</a></li>
-							<li><a href="#">Wow, this is fourth post title</a></li>
-						</ul>
-					</div>
-					<div class="col-md-4 f-contact">
-						<h3 class="widgetheading">Stay in touch</h3>
-						<a href="#"><p><i class="fa fa-envelope"></i> example@gmail.com</p></a>
-						<p><i class="fa fa-phone"></i>  +345 578 59 45 416</p>
-						<p><i class="fa fa-home"></i> Me & Family inc  |  PO Box 23456
-							Little Lonsdale St, New York <br>
-							Victoria 8011 USA</p>
-					</div>
-				</div>
-			</div>
-		</div>
+          </div>
+          <div class="col-md-4 l-posts">
+            <h3 class="widgetheading">Latest Posts</h3>
+            <ul>
+              <li><a href="#">This is awesome post title</a></li>
+              <li><a href="#">Awesome features are awesome</a></li>
+              <li><a href="#">Create your own awesome website</a></li>
+              <li><a href="#">Wow, this is fourth post title</a></li>
+            </ul>
+          </div>
+          <div class="col-md-4 f-contact">
+            <h3 class="widgetheading">Stay in touch</h3>
+            <a href="#"><p><i class="fa fa-envelope"></i> example@gmail.com</p></a>
+            <p><i class="fa fa-phone"></i>  +345 578 59 45 416</p>
+            <p><i class="fa fa-home"></i> Me & Family inc  |  PO Box 23456
+              Little Lonsdale St, New York <br>
+              Victoria 8011 USA</p>
+          </div>
+        </div>
+      </div>
+    </div>
 
-		<div class="last-div">
-			<div class="container">
-				<div class="row">
-					<div class="copyright">
-						© 2014 Me & Family Multi-purpose theme | <a href="http://bootstraptaste.com">Bootstraptaste</a>
-					</div>
+    <div class="last-div">
+      <div class="container">
+        <div class="row">
+          <div class="copyright">
+            © 2014 Me & Family Multi-purpose theme | <a href="http://bootstraptaste.com">Bootstraptaste</a>
+          </div>
                     <!--
                         All links in the footer should remain intact.
                         Licenseing information is available at: http://bootstraptaste.com/license/
@@ -303,35 +320,34 @@ function click(d) {
                     -->
 
 
-					<ul class="social-network">
-						<li><a href="#" data-placement="top" title="Facebook"><i class="fa fa-facebook fa-1x"></i></a></li>
-						<li><a href="#" data-placement="top" title="Twitter"><i class="fa fa-twitter fa-1x"></i></a></li>
-						<li><a href="#" data-placement="top" title="Linkedin"><i class="fa fa-linkedin fa-1x"></i></a></li>
-						<li><a href="#" data-placement="top" title="Pinterest"><i class="fa fa-pinterest fa-1x"></i></a></li>
-						<li><a href="#" data-placement="top" title="Google plus"><i class="fa fa-google-plus fa-1x"></i></a></li>
-					</ul>
-				</div>
-			</div>
-		</div>
-	</footer>
+          <ul class="social-network">
+            <li><a href="#" data-placement="top" title="Facebook"><i class="fa fa-facebook fa-1x"></i></a></li>
+            <li><a href="#" data-placement="top" title="Twitter"><i class="fa fa-twitter fa-1x"></i></a></li>
+            <li><a href="#" data-placement="top" title="Linkedin"><i class="fa fa-linkedin fa-1x"></i></a></li>
+            <li><a href="#" data-placement="top" title="Pinterest"><i class="fa fa-pinterest fa-1x"></i></a></li>
+            <li><a href="#" data-placement="top" title="Google plus"><i class="fa fa-google-plus fa-1x"></i></a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </footer>
 
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="static/js/jquery-2.1.1.min.js"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->
     <script src="static/js/bootstrap.min.js"></script>
-	<script src="static/js/wow.min.js"></script>
-	<script src="static/js/jquery.easing.1.3.js"></script>
-	<script src="static/js/jquery.bxslider.min.js"></script>
-	<script src="static/js/jquery.isotope.min.js"></script>
-	<script src="static/js/fancybox/jquery.fancybox.pack.js"></script>
-	<script src="static/js/functions.js"></script>
-	<script>
-	wow = new WOW(
-	 {
-
-		}	)
-		.init();
-	</script>
+  <script src="static/js/wow.min.js"></script>
+  <script src="static/js/jquery.easing.1.3.js"></script>
+  <script src="static/js/jquery.bxslider.min.js"></script>
+  <script src="static/js/jquery.isotope.min.js"></script>
+  <script src="static/js/fancybox/jquery.fancybox.pack.js"></script>
+  <script src="static/js/functions.js"></script>
+  <script>
+  wow = new WOW(
+   {
+    } )
+    .init();
+  </script>
   </body>
 </html>
 <style>
@@ -343,32 +359,26 @@ function click(d) {
   }
   .row.content {height:auto;}
 }
-
 .bar{
   fill: steelblue;
 }
-
 .bar:hover{
   fill: Orange;
 }
-
 .axis {
 font: 10px sans-serif;
 }
-
 .axis path,
 .axis line {
 fill: none;
 stroke: #000;
 shape-rendering: crispEdges;
 }
-
 .down-buffer {
 margin-bottom: 200px;
 }
 .top-margin{
 margin-top: 20px;
-
 }
 .center {
 text-align: justify;
@@ -381,14 +391,11 @@ margin: 0;
 padding: 0;
 list-style-type: none;
 background-color: #ffff;
-
-
 }
 .bar {
 fill: steelblue;
 fill-opacity: .9;
 }
-
 html {
 scroll-behavior: smooth;
 }
@@ -401,13 +408,9 @@ right:20px;
 border:1px solid;
 padding:3px 6px 3px 6px;
 }
-
-
 li {
 float: left;
 }
-
-
 .stick-to-right {
   width: 120px;
   float: right;
@@ -417,10 +420,7 @@ margin: 0;
 padding: 0;
 list-style-type: none;
 background-color: #ffff;
-
-
 }
-
 .menu_simple ul li a {
 text-decoration: none;
 color: white;
@@ -429,11 +429,9 @@ background-color: #3e7cb0;
 display:block;
 float:none !important;
 }
-
 .menu_simple ul li a:visited {
 color: white;
 }
-
 .menu_simple ul li a:hover, .menu_simple ul li .current {
 color: white;
 background-color: #234ea3;
@@ -454,16 +452,92 @@ background-color: #234ea3;
   stroke: #ccc;
   stroke-width: 1.5px;
 }
-</style>
-<script>
-setTimeout(function(){
-    odometer.innerHTML = 80;
-}, 1000);
-setTimeout(function(){
-    odometer1.innerHTML = -5;
-}, 1000);
 
+</style>
+<script src="http://d3js.org/d3.v3.min.js"></script>
+<script>
+$( "#anchor-entry1" ).click(function() {
+  alert( "Handler for .click() called." );
+});
+setTimeout(function(){
+    odometer.innerHTML = 80000;
+}, 1000);
+setTimeout(function(){
+    odometer1.innerHTML = 429811;
+}, 1000);
 setTimeout(function(){
     odometer2.innerHTML = 42;
 }, 1000);
+</script>
+<script>
+
+var margin = {top: 20, right: 20, bottom: 70, left: 40},
+    width = 600 - margin.left - margin.right,
+    height = 300 - margin.top - margin.bottom;
+
+// Parse the date / time
+var parseDate = d3.time.format("%Y-%m").parse;
+
+var x = d3.scale.ordinal().rangeRoundBands([0, width], .05);
+
+var y = d3.scale.linear().range([height, 0]);
+
+var xAxis = d3.svg.axis()
+    .scale(x)
+    .orient("bottom")
+    .tickFormat(d3.time.format("%Y-%m"));
+
+var yAxis = d3.svg.axis()
+    .scale(y)
+    .orient("left")
+    .ticks(10);
+
+var svg = d3.select("#area2").append("svg")
+    .attr("width", width + margin.left + margin.right)
+    .attr("height", height + margin.top + margin.bottom)
+  .append("g")
+    .attr("transform", 
+          "translate(" + margin.left + "," + margin.top + ")");
+
+d3.csv("static/bar-data.csv", function(error, data) {
+
+    data.forEach(function(d) {
+        d.date = parseDate(d.date);
+        d.value = +d.value;
+    });
+  
+  x.domain(data.map(function(d) { return d.date; }));
+  y.domain([0, d3.max(data, function(d) { return d.value; })]);
+
+  svg.append("g")
+      .attr("class", "x axis")
+      .attr("transform", "translate(0," + height + ")")
+      .call(xAxis)
+    .selectAll("text")
+      .style("text-anchor", "end")
+      .attr("dx", "-.8em")
+      .attr("dy", "-.55em")
+      .attr("transform", "rotate(-90)" );
+
+  svg.append("g")
+      .attr("class", "y axis")
+      .call(yAxis)
+    .append("text")
+      .attr("transform", "rotate(-90)")
+      .attr("y", 6)
+      .attr("dy", ".71em")
+      .style("text-anchor", "end")
+      .text("Score");
+
+  svg.selectAll("bar")
+      .data(data)
+    .enter().append("rect")
+      .style("fill", "steelblue")
+      .attr("x", function(d) { return x(d.date); })
+      .attr("width", x.rangeBand())
+      .attr("y", function(d) { return y(d.value); })
+      .attr("height", function(d) { return height - y(d.value); });
+
+});
+
 </script>
