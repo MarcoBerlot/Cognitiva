@@ -1,0 +1,5 @@
+Flask_PyMongo==0.5.1
+bottle==0.12.13
+pymongo==3.5.1
+nltk==3.2.3
+Flask==0.12.2
