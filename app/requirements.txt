@@ -3,3 +3,5 @@ bottle==0.12.13
 pymongo==3.5.1
 nltk==3.2.3
 Flask==0.12.2
+gunicorn==19.7.1
+requests== 2.18.4
