@@ -1,1 +1,0 @@
-An interactive version of a [Reingold–Tilford tree](/4339184). Click on the nodes to expand or collapse.
