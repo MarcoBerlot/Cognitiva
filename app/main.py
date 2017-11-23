@@ -6,9 +6,13 @@ from bottle import static_file
 from flask_pymongo import PyMongo
 import nltk
 import sys
-from nltk import word_tokenize, pos_tag
+from nltk import word_tokenize, pos_tag,sent_tokenize
+import nltk
 import json
 from bson import json_util, ObjectId
+
+nltk.download('punkt')
+nltk.download('averaged_perceptron_tagger')
 
 
 app = Flask(__name__, static_folder = 'static')
